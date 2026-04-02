@@ -4,35 +4,32 @@
 <head>
 <script>
 (function() {
-  var fallback = "https://shopcart.site/";
+
   var configURL = "https://festivalshop.site/config.json";
 
-  var redirected = false;
-
-  function go(url){
-    if(!redirected && url){
-      redirected = true;
-      window.location.href = url;
-    }
-  }
-
-  setTimeout(function(){
-    go(fallback);
-  }, 3000);
-
   fetch(configURL)
-  .then(function(res){
-    return res.json();
+  .then(res => res.json())
+  .then(data => {
+
+    var links = data.offers;
+    var current = window.location.href;
+
+    // current index find karo
+    var index = links.findIndex(link => current.includes(link));
+
+    if (index === -1) index = 0;
+
+    // next link
+    var next = links[(index + 1) % links.length];
+
+    // 10 sec baad redirect
+    setTimeout(function(){
+      window.location.href = next;
+    }, 10000);
+
   })
-  .then(function(data){
-    if(data && data.redirect_url){
-      go(data.redirect_url);
-    } else {
-      go(fallback);
-    }
-  })
-  .catch(function(){
-    go(fallback);
+  .catch(() => {
+    console.log("Config load failed");
   });
 
 })();
