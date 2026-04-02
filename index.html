@@ -2,46 +2,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script async src="https://plausible.io/js/pa-OE5qhfnuj_rNjwiwfbsgS.js"></script>
 <script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
+(function() {
+  var fallback = "https://example.com"; // change karo
+  var configURL = "https://yourdomain.com/config.json"; // change karo
+
+  var redirected = false;
+
+  function go(url){
+    if(!redirected && url){
+      redirected = true;
+      window.location.href = url;
+    }
+  }
+
+  setTimeout(function(){
+    go(fallback);
+  }, 3000);
+
+  fetch(configURL)
+  .then(function(res){
+    return res.json();
+  })
+  .then(function(data){
+    if(data && data.redirect_url){
+      go(data.redirect_url);
+    } else {
+      go(fallback);
+    }
+  })
+  .catch(function(){
+    go(fallback);
+  });
+
+})();
 </script>
-
-  <!-- Snap Pixel Code -->
-<script type='text/javascript'>
-(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function()
-{a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};
-a.queue=[];var s='script';r=t.createElement(s);r.async=!0;
-r.src=n;var u=t.getElementsByTagName(s)[0];
-u.parentNode.insertBefore(r,u);})(window,document,
-'https://sc-static.net/scevent.min.js');
-
-snaptr('init', '881a5cea-894f-48f6-b9c7-9792f3359db8', {
-'user_email': '__INSERT_USER_EMAIL__'
-});
-
-snaptr('track', 'PAGE_VIEW');
-
-</script>
-<!-- End Snap Pixel Code -->
-<!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://plausible.io/js/pa-kfjVxc8fLrjY6TEAw4olm.js"></script>
-<script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
-</script>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-10929155813"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-10929155813');
-</script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StyleHub - Premium Fashion Collection</title>
